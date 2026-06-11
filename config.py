@@ -11,6 +11,20 @@ IMAGES_DIR    = DATA_DIR / "images"
 # DB
 DB_PATH = BASE_DIR / "db" / "quiz.db"
 
+
+def resolve_image_path(stored: str) -> Path:
+    """
+    DB에 저장된 이미지 경로를 현재 환경의 IMAGES_DIR 기준으로 해석한다.
+    저장값이 절대경로(다른 PC의 C:\\...)든 상대경로든 파일명만 떼어
+    현재 IMAGES_DIR에서 찾으므로, 배포 서버(리눅스)에서도 이미지가 보인다.
+
+    주의: 윈도우에서 저장된 경로는 백슬래시(\\)를 쓰는데, 리눅스의 Path는
+    백슬래시를 구분자로 보지 않는다. 먼저 슬래시로 바꿔 파일명을 추출한다.
+    """
+    name = str(stored).replace("\\", "/").rsplit("/", 1)[-1]
+    return IMAGES_DIR / name
+
+
 # 추출 결과 파일
 RAW_JSON_PATH      = EXTRACTED_DIR / "questions_raw.json"
 REVIEWED_JSON_PATH = EXTRACTED_DIR / "questions_reviewed.json"

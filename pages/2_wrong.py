@@ -9,6 +9,7 @@ import streamlit as st
 
 import app.db as db
 import app.quiz_engine as engine
+from config import resolve_image_path
 
 st.title("❌ 오답노트")
 
@@ -82,7 +83,7 @@ for r in rows:
         if q_row["image_paths"]:
             try:
                 for p in json.loads(q_row["image_paths"]):
-                    img_path = Path(p)
+                    img_path = resolve_image_path(p)
                     if img_path.exists():
                         st.image(str(img_path), use_container_width=True)
             except Exception:

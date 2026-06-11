@@ -19,7 +19,7 @@ import streamlit as st
 
 import app.db as db
 import app.quiz_engine as engine
-from config import DEFAULT_SESSION_SIZE
+from config import DEFAULT_SESSION_SIZE, resolve_image_path
 
 st.title("📝 문제풀기")
 
@@ -50,7 +50,7 @@ def _show_images(image_paths_json: str) -> bool:
         paths = json.loads(image_paths_json)
         shown = False
         for p in paths:
-            img_path = Path(p)
+            img_path = resolve_image_path(p)
             if img_path.exists():
                 st.image(str(img_path), use_container_width=True)
                 shown = True
@@ -192,7 +192,7 @@ if not st.session_state["qp_submitted"]:
 
         for i, c in enumerate(choices):
             if c.get("image_path"):
-                p = Path(c["image_path"])
+                p = resolve_image_path(c["image_path"])
                 if p.exists():
                     st.image(str(p), caption=markers[i], width=200)
 
