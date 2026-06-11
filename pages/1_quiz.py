@@ -151,8 +151,10 @@ st.divider()
 # 문제 표시
 # ──────────────────────────────────────────────
 
-# 문제 번호 + 질문 텍스트 (앱이 생성, 이미지와 분리)
-st.markdown(f"### {q_row['q_number']}. {q_row['content']}")
+# 문제 번호(세션 진행 순서) + 질문 텍스트.
+# 원래 시험지 번호(q_number)가 아니라 세션 내 순번(idx+1)을 써서
+# 상단 "문제 N/총개수" 진행 표시와 번호가 일치하도록 한다.
+st.markdown(f"### {idx + 1}. {q_row['content']}")
 
 # 설명(자료/그림) 이미지 — 있을 때만
 has_image = _show_images(q_row["image_paths"])
